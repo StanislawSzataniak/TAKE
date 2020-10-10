@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <p:tabView>
+
+        <p:tab title="#{AppMessages['tab.form']}">
+            <h:form>
+                <p:growl id="calculateGrowl" showDetail="true"/>
+                <p:spinner id="addFirst" value="#{calculateBean.addFirst}"/>
+                +
+                <p:spinner id="addSecond" value="#{calculateBean.addSecond}"/>
+                <p:commandButton id="calculateButton" title="#{AppMessages['label.calculate']}"
+                                 update="calculateResult calculateDate calculateGrowl"
+                                 action="#{calculateBean.calculate}"/>
+                =
+                <h:outputText id="calculateResult" value="#{calculateBean.result}"/>
+                <br/>
+                <h:outputText id="calculateDate" value="#{calculateBean.date}"/>
+            </h:form>
+        </p:tab>
+        <p:tab title="#{AppMessages['tab.table']}">
+            <p:dataTable value="#{studentsList.allStudents}" var="student" border="1" sortMode="multiple"
+                         paginator="true" rows="5" rowsPerPageTemplate="5,10,15">
+                <p:column headerText="First name">
+                    <h:outputText value="#{student.firstName}"/>
+                </p:column>
+                <p:column headerText="Last name" sortBy="#{student.lastName}">
+                    <h:outputText value="#{student.lastName}"/>
+                </p:column>
+                <p:column headerText="Average grade" sortBy="#{student.avgGrade}">
+                    <h:outputText value="#{student.avgGrade}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2"/>
+                    </h:outputText>
+                </p:column>
+            </p:dataTable>
+        </p:tab>
+        <p:tab title="#{AppMessages['tab.chart']}">
+            <h:form>
+                <p:chart type="line" model="#{chartBean.lineModel}" widgetVar="chart" />
+                <p:commandButton value="#{AppMessages['label.resetzoom']}" onclick="PF('chart').resetZoom()"/>
+            </h:form>
+        </p:tab>
+    </p:tabView>
+
+</h:body>
+
+</html>
